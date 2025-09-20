@@ -1,0 +1,21 @@
+apply plugin: 'scala'
+apply plugin: 'idea'
+
+repositories{
+    mavenCentral()
+    mavenLocal()
+}
+
+dependencies{
+    implementation 'org.scala-lang:scala-library:2.13.16'
+    implementation 'org.scala-lang:scala-library:2.13.16'
+
+    testImplementation 'junit:junit:4.13.1'
+}
+
+tasks.register('run', JavaExec) {
+    dependsOn classes
+    main = 'Main'
+    classpath sourceSets.main.runtimeClasspath
+    classpath configurations.runtime
+}
