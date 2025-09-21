@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.nanograd.app.ValueTests" tests="1" skipped="0" failures="0" errors="0" timestamp="2025-09-21T05:54:58.262Z" hostname="SARATH_DL" time="0.005">
+<testsuite name="com.nanograd.app.ValueTests" tests="2" skipped="0" failures="0" errors="0" timestamp="2025-09-21T06:41:28.302Z" hostname="SARATH_DL" time="0.055">
   <properties/>
-  <testcase name="Values should add correctly return the added value" classname="com.nanograd.app.ValueTests" time="0.005"/>
+  <testcase name="Values should add correctly return the expected value" classname="com.nanograd.app.ValueTests" time="0.052"/>
+  <testcase name="Values should multiply correctly and return the expected value" classname="com.nanograd.app.ValueTests" time="0.0"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

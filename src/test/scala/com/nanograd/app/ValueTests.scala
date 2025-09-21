@@ -5,11 +5,20 @@ import org.scalatest.matchers.should.Matchers
 
 class ValueTests extends AnyFlatSpec with Matchers {
 
-  "Values" should "add correctly return the added value" in {
-    val a = new Value(2.0)
-    val b = new Value(3.0)
+  "Values" should "add correctly return the expected value" in {
 
-    val c = new Value(5.0)
+    val a = new Value(2.0)
+    val b = new Value(-3.0)
+    val c = new Value(-1.0)
+
     a + b shouldBe c
+  }
+
+  it should "multiply correctly and return the expected value" in {
+    val a = new Value(2.0)
+    val b = new Value(-3.0)
+    val c = new Value(-6.0)
+
+    a * b shouldBe c
   }
 }
