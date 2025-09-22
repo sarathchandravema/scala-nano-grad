@@ -3,17 +3,19 @@ import com.nanograd.app.utils.Viz.build
 
 object Usage extends App {
 
-  val a = new Value(2.0)
-  val b = new Value(-3.0)
-  val c = new Value(10.0)
+  val a = new Value(2.0, label = Some("a"))
+  val b = new Value(-3.0, label = Some("b"))
+  val c = new Value(10.0, label = Some("c"))
+  val f = new Value(-2.0, label = Some("f"))
 
-  val d = a*b + c
+  val e = a * b; e.label = Some("e")
+  val d = e + c; d.label = Some("d")
+  val L = d * f; L.label = Some("L")
 
   println(a + b)
   println(a * b)
-  println(a ** 3)
   println(d.previous)
   println(d.operation)
-  println(build(d, 1))
+  println(build(L, 1))
 
 }

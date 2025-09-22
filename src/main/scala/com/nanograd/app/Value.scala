@@ -7,11 +7,12 @@ class Value (var data: Double,
              var label: Option[String] = None
             ) {
 
-  override def toString: String = s"Value( data = ${this.data} )"
+  override def toString: String = s"Value( data=${this.data} | ${this.label.getOrElse("")} | ${this.grad} )"
 
   val previous: Set[Value] = children
-
   val operation: String = _op.getOrElse("")
+
+  var grad: Double = 0.0
 
   def ==(that: Value): Boolean = this.data == that.data && this.label == that.label
 
