@@ -23,4 +23,8 @@ object Usage extends App {
   val o = n.tanh(); o.label = Some("o")
 
   println(build(o, 1))
+
+  o.backward()
+
+  println(build(o, 1))
 }

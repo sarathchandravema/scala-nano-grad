@@ -1,5 +1,7 @@
 package com.nanograd.app
 
+import scala.collection.mutable.ListBuffer
+
 
 class Value (var data: Double,
              val children: scala.collection.immutable.Set[Value] = scala.collection.immutable.Set.empty[Value],
@@ -62,5 +64,23 @@ class Value (var data: Double,
 
     out._backward = backward
     out
+  }
+
+  def backward(): Unit = {
+
+    var topo = new ListBuffer[Value]
+    val visited: scala.collection.mutable.Set[Value] = scala.collection.mutable.Set()
+
+    def buildTopo(v: Value): Unit = {
+      if (!visited.contains(v)) {
+        visited.add(v)
+        v.children.foreach(buildTopo)
+        topo += v
+      }
+    }
+    buildTopo(this)
+    this.grad = 1.0
+    val reversed = topo.reverse
+    reversed.foreach(_._backward())
   }
 }
