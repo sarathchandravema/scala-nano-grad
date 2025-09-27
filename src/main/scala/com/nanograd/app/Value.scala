@@ -13,6 +13,7 @@ class Value (var data: Double,
   val operation: String = _op.getOrElse("")
 
   var grad: Double = 0.0
+  var _backward: () => Unit = () => ()
 
   def ==(that: Value): Boolean = this.data == that.data && this.label == that.label
 
@@ -24,17 +25,28 @@ class Value (var data: Double,
   def +(that: Value): Value = {
     val out = new Value(this.data + that.data, scala.collection.immutable.Set(this, that), Some("+"))
 
+    def backward(): Unit = {
+      this.grad = out.grad
+      that.grad = out.grad
+    }
+
+    out._backward = backward
     out
   }
 
   def *(that: Value): Value = {
     val out = new Value(this.data * that.data, scala.collection.immutable.Set(this, that), Some("*"))
+    def backward(): Unit = {
+      this.grad = out.grad * that.data
+      that.grad = out.grad * this.data
+    }
 
+    out._backward = backward
     out
   }
 
   def **(that: Int): Value = {
-    val out = new Value(scala.math.pow(this.data, that))
+    val out = new Value(scala.math.pow(this.data, that), scala.collection.immutable.Set(this), Some("power"))
 
     out
   }
@@ -44,6 +56,11 @@ class Value (var data: Double,
     val t = (scala.math.exp(2*x) - 1) / (scala.math.exp(2*x) + 1)
     val out = new Value(t, scala.collection.immutable.Set(this), Some("tanh"))
 
+    def backward(): Unit = {
+      this.grad += out.grad * (1 - scala.math.pow(t, 2))
+    }
+
+    out._backward = backward
     out
   }
 }
