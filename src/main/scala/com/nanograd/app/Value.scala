@@ -38,4 +38,12 @@ class Value (var data: Double,
 
     out
   }
+
+  def tanh(): Value = {
+    val x = this.data
+    val t = (scala.math.exp(2*x) - 1) / (scala.math.exp(2*x) + 1)
+    val out = new Value(t, scala.collection.immutable.Set(this), Some("tanh"))
+
+    out
+  }
 }
