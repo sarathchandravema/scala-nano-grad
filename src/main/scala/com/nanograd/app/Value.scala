@@ -28,8 +28,8 @@ class Value (var data: Double,
     val out = new Value(this.data + that.data, scala.collection.immutable.Set(this, that), Some("+"))
 
     def backward(): Unit = {
-      this.grad = out.grad
-      that.grad = out.grad
+      this.grad += out.grad
+      that.grad += out.grad
     }
 
     out._backward = backward
@@ -51,8 +51,8 @@ class Value (var data: Double,
   def *(that: Value): Value = {
     val out = new Value(this.data * that.data, scala.collection.immutable.Set(this, that), Some("*"))
     def backward(): Unit = {
-      this.grad = out.grad * that.data
-      that.grad = out.grad * this.data
+      this.grad += out.grad * that.data
+      that.grad += out.grad * this.data
     }
 
     out._backward = backward
@@ -75,7 +75,7 @@ class Value (var data: Double,
     val out = new Value(scala.math.pow(this.data, num.toDouble(that)), scala.collection.immutable.Set(this), Some("power"))
 
     def backward(): Unit = {
-      this.grad = (scala.math.pow(this.data, num.toInt(that) - 1) * num.toInt(that)) * out.grad
+      this.grad += (scala.math.pow(this.data, num.toInt(that) - 1) * num.toInt(that)) * out.grad
     }
 
     out._backward = backward
@@ -88,7 +88,7 @@ class Value (var data: Double,
     val out = new Value(t, scala.collection.immutable.Set(this), Some("tanh"))
 
     def backward(): Unit = {
-      this.grad = out.grad * (1 - scala.math.pow(t, 2))
+      this.grad += out.grad * (1 - scala.math.pow(t, 2))
     }
 
     out._backward = backward
@@ -100,7 +100,7 @@ class Value (var data: Double,
     val out = new Value(scala.math.exp(x))
 
     def backward():Unit = {
-      this.grad = out.grad
+      this.grad += out.grad
     }
 
     out._backward = backward

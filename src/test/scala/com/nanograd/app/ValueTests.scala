@@ -160,4 +160,22 @@ class ValueTests extends AnyFlatSpec with Matchers {
     x1 / r0 shouldBe r0
     8 / x1 shouldBe r0
   }
+
+  it should "fix the incremental grad changes bug for addition" in {
+    val x1 = new Value(4.0, label = Some("x1"))
+    val x2 = x1 + x1
+
+    x2.backward()
+
+    x1.grad shouldBe 2.0
+  }
+
+  it should "fix the incremental grad changes bug for multiplication" in {
+    val x1 = new Value(4.0, label = Some("x1"))
+    val x2 = x1 * x1
+
+    x2.backward()
+
+    x1.grad shouldBe 8.0
+  }
 }
