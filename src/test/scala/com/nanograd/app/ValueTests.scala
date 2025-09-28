@@ -150,4 +150,14 @@ class ValueTests extends AnyFlatSpec with Matchers {
     1 * x1 shouldBe r0
     x1 * BigDecimal(2) shouldBe r2
   }
+
+  it should "work substraction and division and commutatively" in {
+    val x1 = new Value(4.0, label = Some("x1"))
+    val r0 = new Value(2.0)
+
+    x1 - 2 shouldBe r0
+    6 - x1 shouldBe r0
+    x1 / r0 shouldBe r0
+    8 / x1 shouldBe r0
+  }
 }

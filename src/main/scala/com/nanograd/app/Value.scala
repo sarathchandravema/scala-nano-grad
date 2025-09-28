@@ -41,6 +41,13 @@ class Value (var data: Double,
     this + thatValue
   }
 
+  def -(that: Value): Value = this + (that * -1)
+
+  def -[T: Numeric](that: T)(implicit num: Numeric[T]): Value = {
+    val thatValue = new Value(num.toDouble(that))
+    this - thatValue
+  }
+
   def *(that: Value): Value = {
     val out = new Value(this.data * that.data, scala.collection.immutable.Set(this, that), Some("*"))
     def backward(): Unit = {
@@ -57,9 +64,21 @@ class Value (var data: Double,
     this * thatValue
   }
 
-  def **(that: Int): Value = {
-    val out = new Value(scala.math.pow(this.data, that), scala.collection.immutable.Set(this), Some("power"))
+  def /(that: Value): Value = this * (that**(-1))
 
+  def /[T: Numeric](that: T)(implicit num: Numeric[T]): Value = {
+    val thatValue = new Value(num.toDouble(that))
+    this / thatValue
+  }
+
+  def **[@specialized(Double, Int, Long) T](that: T)(implicit num: Numeric[T]): Value = {
+    val out = new Value(scala.math.pow(this.data, num.toDouble(that)), scala.collection.immutable.Set(this), Some("power"))
+
+    def backward(): Unit = {
+      this.grad = (scala.math.pow(this.data, num.toInt(that) - 1) * num.toInt(that)) * out.grad
+    }
+
+    out._backward = backward
     out
   }
 
@@ -69,7 +88,19 @@ class Value (var data: Double,
     val out = new Value(t, scala.collection.immutable.Set(this), Some("tanh"))
 
     def backward(): Unit = {
-      this.grad += out.grad * (1 - scala.math.pow(t, 2))
+      this.grad = out.grad * (1 - scala.math.pow(t, 2))
+    }
+
+    out._backward = backward
+    out
+  }
+
+  def exp(): Value = {
+    val x = this.data
+    val out = new Value(scala.math.exp(x))
+
+    def backward():Unit = {
+      this.grad = out.grad
     }
 
     out._backward = backward
@@ -104,9 +135,19 @@ object Value {
       thisValue + that
     }
 
+    def -(that: Value)(implicit num: Numeric[T]): Value = {
+      val thisValue = new Value(num.toDouble(this.n))
+      thisValue - that
+    }
+
     def *(that: Value)(implicit num: Numeric[T]): Value = {
       val thisValue = new Value(num.toDouble(this.n))
       thisValue * that
+    }
+
+    def /(that: Value)(implicit num: Numeric[T]): Value = {
+      val thisValue = new Value(num.toDouble(this.n))
+      thisValue / that
     }
   }
 }
