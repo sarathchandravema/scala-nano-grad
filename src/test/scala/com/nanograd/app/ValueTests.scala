@@ -138,6 +138,16 @@ class ValueTests extends AnyFlatSpec with Matchers {
     x2.grad shouldBe 0.4999999999999999
     w1.grad shouldBe 0.9999999999999998
     w2.grad shouldBe 0.0
+  }
 
+  it should "work commutatively for both addition and multiplication" in {
+    val x1 = new Value(2.0, label = Some("x1"))
+    val r0 = new Value(2.0)
+    val r1 = new Value(3.0)
+    val r2 = new Value(4.0)
+
+    1 + x1 shouldBe r1
+    1 * x1 shouldBe r0
+    x1 * BigDecimal(2) shouldBe r2
   }
 }
