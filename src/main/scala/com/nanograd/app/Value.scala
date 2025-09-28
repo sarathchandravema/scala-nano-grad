@@ -36,6 +36,12 @@ class Value (var data: Double,
     out
   }
 
+  def +[T: Numeric](that: T): Value = {
+    val nums = implicitly[Numeric[T]]
+    val thatValue = new Value(nums.toDouble(that))
+    this + thatValue
+  }
+
   def *(that: Value): Value = {
     val out = new Value(this.data * that.data, scala.collection.immutable.Set(this, that), Some("*"))
     def backward(): Unit = {
@@ -82,5 +88,20 @@ class Value (var data: Double,
     this.grad = 1.0
     val reversed = topo.reverse
     reversed.foreach(_._backward())
+  }
+}
+
+
+
+object Value {
+//  implicit def num2Value[T](n: T)(implicit num: Numeric[T]): Value = new Value(num.toDouble(n))
+  implicit class NumPlusValue[T](val n: T) extends AnyVal {
+//  implicit class NumPlusValue[T](val n: T)(implicit num: Numeric[T]) {
+
+    def +(that: Value)(implicit num: Numeric[T]): Value = {
+//      val num = implicitly[Numeric[T]]
+      val thisValue = new Value(num.toDouble(this.n))
+      thisValue + that
+    }
   }
 }
