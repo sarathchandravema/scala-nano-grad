@@ -1,4 +1,4 @@
-import com.nanograd.app.Value
+import com.nanograd.app.{Layer, Neuron, Value}
 import com.nanograd.app.utils.Viz.build
 
 object Usage extends App {
@@ -27,4 +27,15 @@ object Usage extends App {
   o.backward()
 
   println(build(o, 1))
+
+  val nu = new Neuron(4)
+  val inp1 = Seq(new Value(1.5), new Value(1.5), new Value(1.5), new Value(1.5))
+  nu.weights = Seq(new Value(0.1), new Value(0.2), new Value(0.3), new Value(0.4) )
+
+  println(nu(input = inp1))
+
+  val inp2 = Seq(new Value(1.5), new Value(1.5))
+  val l1 = new Layer(2, 3)
+  println(l1.neurons(0).weights)
+  println(l1(inputs = inp2))
 }
