@@ -4,7 +4,7 @@ import scala.util.Random
 
 class Neuron(val numberOfInputs: Int) {
 
-  var weights:Seq[Value] = (0 until numberOfInputs).map(x => new Value(Random.nextDouble()))
+  var weights:Seq[Value] = (0 until numberOfInputs).map(x => new Value(-1 + 2*Random.nextDouble()))
   var bias: Value = new Value(Random.nextDouble())
 
   override def toString: String = s"Neuron{$numberOfInputs}"
