@@ -1,10 +1,10 @@
 # scala-nano-grad
-A tiny autograd engine implemented in scala. This is inspired from Andrej Karpathy's [micrograd](https://github.com/karpathy/micrograd), from the YouTube video [Spelled-out-intro](https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ&index=4), that implements a pytorch-like API in Python. Implements backpropogation over a dynamically built DAG and a small neural networks library, both written in scala. While the intention is to learn the internals of neural networks by implementation, this scala version keeps things simple and attempts to replicate the core functionality in functional style.
+A tiny autograd engine implemented in scala. This is inspired from Andrej Karpathy's [micrograd](https://github.com/karpathy/micrograd), from the YouTube video [The spelled-out intro to neural networks and backpropagation: building micrograd](https://www.youtube.com/watch?v=VMj-3S1tku0&list=PLAqhIrjkxbuWI23v9cThsA9GvCAUhRvKZ&index=4), that implements a pytorch-like API in Python. These are tiny with less than 200 lines of code. Implements backpropogation over a dynamically built DAG and a small neural networks library, both written in scala. While the intention is to learn the internals of neural networks by implementation, this scala version keeps things simple and attempts to replicate the core functionality in functional style. 
 
 Some deviations:
-* Created a function to print the DAG in text format, in place of a clear vizualization. Well, it is not as appelling as Andrej's, but it servers the purpose ;)
-* Added a Usage.scala file in the project.
-* As of now, demos are not added. However, tests are added where and all possible.
+* Created a function to print the DAG in text format, in place of a clear vizualization. Well, it is not as appelling as Andrej's, but it servers the purpose(my purpose) ;)
+* Added a Usage.scala file in the project that demonstrates the usage of the classes created.
+* As of now, demo, similar to micrograd, is not added. However, tests to validate the functionality are added. These were not validated using PyTorch.
 
 ### Example Usage
 
@@ -50,3 +50,12 @@ To run the unit tests, you need to run the below command
 ```bash
 gradlew test
 ```
+
+### Further Improvements
+* Implement the first problem of Neural nets, resolving the XOR gate in demo.
+* Create an abstract class, Module, and extend for Neuron, Layer and MLP.
+* Include the activation functions from micrograd.
+* Create the dataset as in [micrograd's demo](https://github.com/karpathy/micrograd/blob/master/demo.ipynb) and the visualizations.(Challenging ones ;) )
+
+### License
+MIT
